@@ -1,64 +1,75 @@
 ﻿using GeekShopping.Web.Models;
 using GeekShopping.Web.Services.IServices;
 using GeekShopping.Web.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace GeekShopping.Web.Services
 {
     public class CartService : ICartService
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _client;
         public const string BasePath = "api/v1/cart";
 
-        public CartService(HttpClient httpClient)
+        public CartService(HttpClient client)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
         public async Task<CartViewModel> FindCartByUserId(string userId, string token)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var response = await _httpClient.GetAsync($"{BasePath}/find-cart/{userId}");
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _client.GetAsync($"{BasePath}/find-cart/{userId}");
             return await response.ReadContentAs<CartViewModel>();
         }
 
-        public async Task<CartViewModel> AddItemToCart(CartViewModel cart, string token)
+        public async Task<CartViewModel> AddItemToCart(CartViewModel model, string token)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var response = await _httpClient.PostAsJson($"{BasePath}/add-cart", cart);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _client.PostAsJson($"{BasePath}/add-cart", model);
             if (response.IsSuccessStatusCode)
                 return await response.ReadContentAs<CartViewModel>();
-
-            else throw new Exception("Algo aconteceu errado ao chamar a API");
+            else throw new Exception("Something went wrong when calling API");
         }
-        public async Task<CartViewModel> UpdateCart(CartViewModel cart, string token)
+
+        public async Task<CartViewModel> UpdateCart(CartViewModel model, string token)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var response = await _httpClient.PutAsJson($"{BasePath}/update-cart", cart);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _client.PutAsJson($"{BasePath}/update-cart", model);
             if (response.IsSuccessStatusCode)
                 return await response.ReadContentAs<CartViewModel>();
-
-            else throw new Exception("Algo aconteceu errado ao chamar a API");
+            else throw new Exception("Something went wrong when calling API");
         }
+
         public async Task<bool> RemoveFromCart(long cartId, string token)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var response = await _httpClient.DeleteAsync($"{BasePath}/remove-cart/{cartId}");
-            if (response.IsSuccessStatusCode) return await response.ReadContentAs<bool>();
-            else throw new Exception("Algo aconteceu errado ao chamar a API");
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _client.DeleteAsync($"{BasePath}/remove-cart/{cartId}");
+            if (response.IsSuccessStatusCode)
+                return await response.ReadContentAs<bool>();
+            else throw new Exception("Something went wrong when calling API");
         }
 
         public async Task<bool> ApplyCoupon(CartViewModel cart, string couponCode, string token)
         {
             throw new NotImplementedException();
         }
+
         public async Task<CartViewModel> Checkout(CartHeaderViewModel cartHeader, string token)
         {
             throw new NotImplementedException();
         }
+
         public async Task<bool> ClearCart(string userId, string token)
         {
             throw new NotImplementedException();
         }
+
         public async Task<bool> RemoveCoupon(string userId, string token)
         {
             throw new NotImplementedException();
