@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GeekShopping.CartAPI.Model
 {
-    [Table("CART_DETAIL")]
+    [Table("cart_detail")]
     public class CartDetail : BaseEntity
     {
         public long CartHeaderId { get; set; }
@@ -13,6 +13,7 @@ namespace GeekShopping.CartAPI.Model
         public long ProductId { get; set; }
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
+
         [Column("count")]
         public int Count { get; set; }
     }

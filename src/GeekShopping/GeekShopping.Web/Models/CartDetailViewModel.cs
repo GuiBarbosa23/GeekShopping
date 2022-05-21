@@ -1,5 +1,4 @@
-﻿
-namespace GeekShopping.Web.Models
+﻿namespace GeekShopping.Web.Models
 {
     public class CartDetailViewModel
     {
@@ -8,6 +7,7 @@ namespace GeekShopping.Web.Models
         public CartHeaderViewModel CartHeader { get; set; }
         public long ProductId { get; set; }
         public ProductViewModel Product { get; set; }
+
         public int Count { get; set; }
     }
 }

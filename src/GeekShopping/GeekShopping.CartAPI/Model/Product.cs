@@ -1,10 +1,9 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GeekShopping.CartAPI.Model
 {
-    [Table("PRODUCT")]
+    [Table("product")]
     public class Product
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -31,8 +30,6 @@ namespace GeekShopping.CartAPI.Model
 
         [Column("image_url")]
         [StringLength(300)]
-        public string ImageUrl { get; set; }
-
-
+        public string ImageURL { get; set; }
     }
 }

@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<GeekShopping.Web.Models.ProductViewModel>
 
-<br />
-<br />
-
+<br/>
+<br/>
 <div class="container p-4 border">
     <div class="row pb-2">
         <div class="col">
@@ -18,42 +17,40 @@
         <thead>
             <tr>
                 <th>
-                    Nome
+                    Name
                 </th>
                 <th>
-                    Categoria
+                    Category
                 </th>
                 <th>
-                    Preço
+                    Price
                 </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @item.Name
-                </td>
-                <td>
-                    @item.CategoryName
-                </td>
-                <td>
-                    @((item.Price).ToString("c"))
-                </td>
-                <td>
-                    <a asp-action="ProductUpdate" class="btn btn-success" asp-route-id="@item.Id">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <a asp-action="ProductDelete" class="btn btn-danger" asp-route-id="@item.Id">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                    }
-
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.CategoryName
+                    </td>
+                    <td>
+                        @((item.Price).ToString("c"))
+                    </td>
+                    <td>
+                       <a asp-action="ProductUpdate" class="btn btn-success" asp-route-id="@item.Id">
+                           <i class="fas fa-edit"></i>
+                       </a>
+                       @if(User.IsInRole("Admin")){
+                           <a asp-action="ProductDelete" class="btn btn-danger" asp-route-id="@item.Id">
+                               <i class="fas fa-trash"></i>
+                           </a>
+                       }
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

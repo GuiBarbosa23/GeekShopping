@@ -3,11 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GeekShopping.CartAPI.Model
 {
-    [Table("CART_HEADER")]
+    [Table("cart_header")]
     public class CartHeader : BaseEntity
     {
         [Column("user_id")]
-        public string UserID { get; set; }
+        public string UserId { get; set; }
+
         [Column("coupon_code")]
         public string CouponCode { get; set; }
     }

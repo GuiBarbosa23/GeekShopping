@@ -12,10 +12,10 @@ namespace GeekShopping.ProductAPI.Repository
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly MySqlContext _context;
+        private readonly MySQLContext _context;
         private IMapper _mapper;
 
-        public ProductRepository(MySqlContext context, IMapper mapper)
+        public ProductRepository(MySQLContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -24,31 +24,24 @@ namespace GeekShopping.ProductAPI.Repository
         public async Task<IEnumerable<ProductVO>> FindAll()
         {
             List<Product> products = await _context.Products.ToListAsync();
-
             return _mapper.Map<List<ProductVO>>(products);
         }
 
-
         public async Task<ProductVO> FindById(long id)
         {
-
-            #pragma warning disable CS8600 // Conversão de literal nula ou possível valor nulo em tipo não anulável.
-            Product product = await _context.Products.Where(p => p.Id == id).FirstOrDefaultAsync();
-            #pragma warning restore CS8600 // Conversão de literal nula ou possível valor nulo em tipo não anulável.
-
+            Product product =
+                await _context.Products.Where(p => p.Id == id)
+                .FirstOrDefaultAsync();
             return _mapper.Map<ProductVO>(product);
         }
-
 
         public async Task<ProductVO> Create(ProductVO vo)
         {
             Product product = _mapper.Map<Product>(vo);
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
-
             return _mapper.Map<ProductVO>(product);
         }
-
         public async Task<ProductVO> Update(ProductVO vo)
         {
             Product product = _mapper.Map<Product>(vo);
@@ -61,7 +54,9 @@ namespace GeekShopping.ProductAPI.Repository
         {
             try
             {
-                Product product = await _context.Products.Where(p => p.Id == id).FirstOrDefaultAsync();
+                Product product =
+                await _context.Products.Where(p => p.Id == id)
+                    .FirstOrDefaultAsync();
                 if (product == null) return false;
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
@@ -69,7 +64,6 @@ namespace GeekShopping.ProductAPI.Repository
             }
             catch (Exception)
             {
-
                 return false;
             }
         }

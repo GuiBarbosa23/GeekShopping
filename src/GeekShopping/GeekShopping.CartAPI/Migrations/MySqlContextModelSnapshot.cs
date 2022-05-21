@@ -4,19 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-#nullable disable
-
 namespace GeekShopping.CartAPI.Migrations
 {
-    [DbContext(typeof(MySqlContext))]
-    partial class MySqlContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(MySQLContext))]
+    partial class MySQLContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.4")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64)
+                .HasAnnotation("ProductVersion", "6.0.0-preview.6.21352.1");
 
             modelBuilder.Entity("GeekShopping.CartAPI.Model.CartDetail", b =>
                 {
@@ -41,7 +39,7 @@ namespace GeekShopping.CartAPI.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CART_DETAIL");
+                    b.ToTable("cart_detail");
                 });
 
             modelBuilder.Entity("GeekShopping.CartAPI.Model.CartHeader", b =>
@@ -52,18 +50,16 @@ namespace GeekShopping.CartAPI.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("CouponCode")
-                        .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("coupon_code");
 
-                    b.Property<string>("UserID")
-                        .IsRequired()
+                    b.Property<string>("UserId")
                         .HasColumnType("longtext")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CART_HEADER");
+                    b.ToTable("cart_header");
                 });
 
             modelBuilder.Entity("GeekShopping.CartAPI.Model.Product", b =>
@@ -73,19 +69,16 @@ namespace GeekShopping.CartAPI.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("CategoryName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)")
                         .HasColumnName("category_name");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)")
                         .HasColumnName("description");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
+                    b.Property<string>("ImageURL")
                         .HasMaxLength(300)
                         .HasColumnType("varchar(300)")
                         .HasColumnName("image_url");
@@ -102,7 +95,7 @@ namespace GeekShopping.CartAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PRODUCT");
+                    b.ToTable("product");
                 });
 
             modelBuilder.Entity("GeekShopping.CartAPI.Model.CartDetail", b =>
